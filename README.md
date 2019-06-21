@@ -1,2 +1,23 @@
-# FotobudkaRaspberryPi
-Grupowy projekt inżynierski polegający na stworzeniu mini fotobudki przy użyciu Raspberry PI
+# frontend
+
+## Project setup
+```
+npm install
+```
+### Compiles and hot-reloads for development
+```
+npm run frontend
+```
+### Simple server for testing
+```
+npm run backend
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
