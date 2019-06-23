@@ -26,28 +26,39 @@
           </div>
         </div>
       </form>
-    </div>
-    <gallery :images="urls" :index="index" @close="index = null"></gallery>
-    <div class="cards-wrapper">
-      <div
-        class="card-grid-space"
-        data-aos="fade-up"
-        data-aos-delay="100"
-        v-for="(image, id) in images"
-        :key="id"
-        @click="index = id"
-      >
-        <a class="card">
-          <img :src="image.url" alt="image.title">
-        </a>
+      <div class="row">
+        <div v-if="toolbar" class="login-wrap-toolbar">
+          <button class="smallButton" v-on:click="gridL = !gridL, gridS = !gridS">
+            <font-awesome-icon :icon="['fas', 'expand-arrows-alt']"/> Grid Size
+          </button>
+        </div>
       </div>
     </div>
+    <gallery :images="urls" :index="index" @close="index = null"></gallery>
+    <div v-bind:class="{'cards-wrapper': gridL, 'cards-wrapper-S': gridS}">
+      <div class="card-grid-space" v-for="(image, id) in images" :key="id" >
+        <div class="card">
+          <div class="img-wrapper">
+            <img :src="image.url" alt="image.title" @click="index = id">
+            <h2><facebook class="social" :url="image.url" scale="2"></facebook><twitter class="social" :url="image.url" scale="2"></twitter> <pinterest class="social" :url="image.url" scale="2"></pinterest></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
   </div>
+  <!--  insert into card grid space for animation
+   data-aos="fade-up"
+  data-aos-delay="10"-->
 </template>
 
 <script>
 import VueGallery from "vue-gallery";
 import axios from "axios";
+import { Facebook } from 'vue-socialmedia-share';
+import { Twitter } from 'vue-socialmedia-share';
+import { Pinterest } from 'vue-socialmedia-share';
 
 let ax = axios.create({
   baseURL: "https://fotobudkaraspberry.000webhostapp.com/getPhoto.php"
@@ -70,14 +81,18 @@ export default {
       index: null,
       term: "",
       isLoading: false,
-      fullPage: true
+      fullPage: true,
+      toolbar: false,
+      gridL: true,
+      gridS: false,
+      scrollAnimation: true
     };
   },
   methods: {
     getLoader(imgname) {
       return require("../assets/loader.gif");
     },
-    /*     handleSearch() {
+    /* handleSearch() {
       this.images = [];
       this.urls = [];
       this.isLoading = true;
@@ -94,6 +109,7 @@ export default {
             console.log("Extracted urls: ", this.urls);
             if (response.status == 200) {
               this.isLoading = false;
+              this.toolbar = true;
             }
           } else {
             this.isLoading = false;
@@ -111,7 +127,7 @@ export default {
           }
           this.isLoading = false;
         });
-    }, */
+    } */
     handleSearch() {
       this.images = [];
       this.urls = [];
@@ -129,6 +145,7 @@ export default {
             console.log("Extracted urls: ", this.urls);
             if (response.status == 200) {
               this.isLoading = false;
+              this.toolbar = true;
             }
           } else {
             this.isLoading = false;
@@ -149,7 +166,10 @@ export default {
     }
   },
   components: {
-    gallery: VueGallery
+    gallery: VueGallery,
+    Facebook,
+    Twitter,
+    Pinterest
   }
 };
 </script>
